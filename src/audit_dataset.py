@@ -1,6 +1,7 @@
 from pathlib import Path
 from collections import Counter
 from PIL import Image
+import csv
 
 RAW = Path(__file__).resolve().parents[1] / "data" / "raw"
 
@@ -43,7 +44,7 @@ if __name__ == "__main__":
     if rows:
         group_counts = Counter(r["group"] for r in rows)
         for g, n in sorted(group_counts.items(),
-                           key=lambda kv: int(kv[0]) if kv[0].isdigit() else 99):
+                        key=lambda kv: int(kv[0]) if kv[0].isdigit() else 99):
             print(f"    age {g:>3}: {n}")
     else:
         print("    No readable images.")
@@ -56,3 +57,11 @@ if __name__ == "__main__":
         print(f"Aspect min {aspects[0]} median {aspects[mid]} max {aspects[-1]}")
     else:
         print("\nNo readable images to summarize.")
+
+    out = Path(__file__).resolve().parents[1] / "outputs" / "audit.csv"
+    out.parent.mkdir(exist_ok=True)
+    with open(out, "w", newline="", encoding="utf-8") as f:
+        w = csv.Dictwriter(f, fieldname=list(rows[0].keys()))
+        w.writeheader()
+        w.writerows(rows)
+    print("\nWrote", out)
