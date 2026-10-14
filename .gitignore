@@ -1,0 +1,21 @@
+# Dataset — not ours to redistribute (no license). See README "Data".
+data/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Experiment outputs and model weights
+outputs/
+runs/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# Notebooks / editors / secrets
+.ipynb_checkpoints/
+.vscode/
+.env
